@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TERMINAL // Management System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- MAIN MENU -->
+  <div id="main-menu" class="menu-screen">
+    <div class="menu-box">
+      <div class="menu-title">TERMINAL // MGMT-SYS</div>
+      <div class="menu-sub">v1.0 — boot sequence</div>
+      <div class="menu-buttons">
+        <button class="menu-btn" data-menu="new">NEW STORY</button>
+        <button class="menu-btn" data-menu="continue">CONTINUE</button>
+        <button class="menu-btn locked" data-menu="endless" disabled>🔒 ENDLESS MODE</button>
+        <button class="menu-btn" data-menu="settings">SETTINGS</button>
+        <button class="menu-btn" data-menu="quit">QUIT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW STORY: CHARACTER NAME MODAL -->
+  <div id="modal-name" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">CHARACTER NAME</div>
+      <input type="text" id="input-player-name" class="modal-input" placeholder="Enter name..." maxlength="24" autocomplete="off">
+      <button class="action" id="confirm-name">CONFIRM</button>
+    </div>
+  </div>
+
+  <!-- SAVE SLOT MODAL (used for both New Story save + Continue load) -->
+  <div id="modal-slots" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title" id="slots-title">SELECT SLOT</div>
+      <div id="slots-list" class="slots-list"></div>
+      <button class="action" id="delete-mode-btn">DELETE A SAVE</button>
+      <button class="action" id="close-slots">CANCEL</button>
+    </div>
+  </div>
+
+  <!-- NEW STORY: BUSINESS NAME MODAL -->
+  <div id="modal-business" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">BUSINESS NAME</div>
+      <input type="text" id="input-business-name" class="modal-input" placeholder="Enter business..." maxlength="24" autocomplete="off">
+      <button class="action" id="confirm-business">CONFIRM</button>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div id="modal-settings" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title">SETTINGS</div>
+      <div class="na">N/A</div>
+      <button class="action" id="close-settings">CLOSE</button>
+    </div>
+  </div>
+
+  <!-- SLEEP MODAL -->
+  <div id="modal-sleep" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-title" id="sleep-title">CHOOSE WHERE TO SLEEP</div>
+      <div id="sleep-list" class="slots-list"></div>
+      <button class="action" id="close-sleep">NOT YET</button>
+    </div>
+  </div>
+
+  <!-- COMMAND CONSOLE (Ctrl-B) -->
+  <div id="console" class="console">
+    <span class="console-prompt">&gt;</span>
+    <input type="text" id="console-input" class="console-input" placeholder="enter command..." autocomplete="off">
+  </div>
+
+  <!-- GAME -->
+  <div class="container hidden" id="game">
+    <header>
+     <div class="title-wrap" style="display:flex;align-items:center;gap:12px;">
+        <span class="title">TERMINAL // MGMT-SYS v1.0</span>
+        <button class="action" id="save-btn">SAVE</button>
+        <button class="action" id="sleep-btn" style="display:none;">SLEEP</button>
+        <button class="action" id="menu-btn">MENU</button>
+      </div>
+      <div class="currencies">
+        <span class="money cash"><span class="label">CASH:</span> $<span id="money">100</span></span>
+        <span class="money digital"><span class="label">DIGITAL:</span> $<span id="digital">0</span></span>
+      </div>
+    </header>
+
+    <nav>
+      <button class="tab-btn" data-tab="production">PRODUCTION</button>
+      <button class="tab-btn" data-tab="inventory">INVENTORY</button>
+      <button class="tab-btn" data-tab="market">GLOBAL MARKET</button>
+      <button class="tab-btn" data-tab="character">CHARACTER</button>
+      <button class="tab-btn" data-tab="properties">PROPERTIES</button>
+      <button class="tab-btn" data-tab="logistics">LOGISTICS</button>
+      <button class="tab-btn" data-tab="story">STORY</button>
+      <button class="tab-btn" data-tab="notes">NOTES</button>
+    </nav>
+
+    <section id="production" class="panel">
+      <h2>Production</h2>
+      <div id="prod-categories"></div>
+      <div class="log" id="log"></div>
+    </section>
+
+    <section id="inventory" class="panel">
+      <h2>Inventory</h2>
+      <div id="inv-categories"></div>
+    </section>
+
+    <section id="market" class="panel">
+      <h2>Global Market</h2>
+      <div id="market-categories"></div>
+    </section>
+
+    <section id="character" class="panel">
+      <h2>Character</h2>
+      <div id="char-categories"></div>
+    </section>
+
+    <section id="properties" class="panel">
+      <h2>Properties</h2>
+      <div id="prop-categories"></div>
+    </section>
+
+    <section id="logistics" class="panel">
+      <h2>Logistics</h2>
+      <div id="logistics-content"></div>
+    </section>
+
+    <section id="story" class="panel active">
+      <h2>Story Log</h2>
+      <div id="story-content"></div>
+    </section>
+
+    <section id="notes" class="panel">
+      <h2>Notes</h2>
+      <div id="notes-list"></div>
+      <div id="note-body" class="note-body"></div>
+    </section>
+
+    <footer>
+      <span>STATUS: <span style="color:var(--blue)">ONLINE</span><span class="blink">_</span></span>
+      <span>LOC: <span class="loc">Antwerp, Belgium</span></span>
+      <span>TIME: <span id="game-clock" class="gtime">DAY 1 // 6:00 AM</span></span>
+      <span id="clock"></span>
+    </footer>
+
+    <button id="streets-btn" class="streets-btn">☰ ENTER THE STREETS</button>
+    <div id="tutorial-arrow" class="tut-arrow">▼</div>
+    <div id="gabriel-bubble" class="gabriel-bubble"></div>
+  </div>
+
+  <script src="content.js"></script>
+  <script src="script.js"></script>
+  <script src="characters.js"></script>
+  <script src="player.js"></script>
+  <script src="streets.js"></script>
+</body>
+</html>
